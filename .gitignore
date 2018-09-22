@@ -26,6 +26,7 @@ core
 *.sublime-workspace
 *.~*~
 *~
+*.png
 __history
 backup/*
 media/*
