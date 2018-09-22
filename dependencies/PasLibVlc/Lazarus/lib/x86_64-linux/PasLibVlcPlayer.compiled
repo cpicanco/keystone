@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="/home/cpicanco/lazarus/stable/fpc/bin/x86_64-linux/fpc.sh" Date="1537617831"/>
+  <Params Value=" -MDelphi -Scghi -CX -Cg -O4 -g -gl -Xg -l -vewnhibq -Fu/home/cpicanco/git/keystone/dependencies/PasLibVlc/source -Fu/home/cpicanco/git/keystone/dependencies/PasLibVlc/source.vcl -Fu/home/cpicanco/lazarus/stable/lazarus/packager/units/x86_64-linux -Fu/home/cpicanco/lazarus/stable/lazarus/components/lazutils/lib/x86_64-linux -Fu/home/cpicanco/lazarus/stable/lazarus/lcl/units/x86_64-linux -Fu/home/cpicanco/lazarus/stable/lazarus/lcl/units/x86_64-linux/gtk2 -Fu/home/cpicanco/git/keystone/dependencies/PasLibVlc/Lazarus/ -FU/home/cpicanco/git/keystone/dependencies/PasLibVlc/Lazarus/lib/x86_64-linux/ -dLCL -dLCLgtk2 PasLibVlcPlayer.pas"/>
+</CONFIG>

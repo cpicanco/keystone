@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Makefile Value="2"/>
+  <Params Value=" -Fu../source;../source.vcl;../../../../../lazarus/stable/lazarus/packager/units/$(CPU_TARGET)-$(OS_TARGET);../../../../../lazarus/stable/lazarus/components/lazutils/lib/$(CPU_TARGET)-$(OS_TARGET);../../../../../lazarus/stable/lazarus/lcl/units/$(CPU_TARGET)-$(OS_TARGET);../../../../../lazarus/stable/lazarus/lcl/units/$(CPU_TARGET)-$(OS_TARGET)/$(LCL_PLATFORM);.  -MDelphi -Scghi -CX -O4 -g -gl -gh -Xg -l -vewnhibq -dLCL -dLCL$(LCL_PLATFORM) PasLibVlcPlayer.pas"/>
+</CONFIG>

@@ -99,7 +99,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="vlc"/>
+      <OtherUnitFiles Value="dependencies/PasLibVlc/source;dependencies/PasLibVlc/source.vcl"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>
