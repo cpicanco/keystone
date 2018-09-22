@@ -17,7 +17,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, lclvlc, vlc;
+  StdCtrls, PasLibVlcPlayerUnit;
 
 type
 
@@ -28,10 +28,12 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: char);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure PlayerOpening(Sender: TObject);
   private
-    Player : TLCLVLCPlayer;
-    MediaItem : TVLCMediaItem;
+    FPlayRate : integer;
+    Player : TPasLibVlcPlayer;
+    procedure PlayRate(AValue : integer);
   public
     {$IFDEF WINDOWS}
     OriginalBounds: TRect;
@@ -58,7 +60,8 @@ uses Forms.Main, Forms.Report, Timestamps;
 procedure TFormPlayer.FormActivate(Sender: TObject);
 begin
   FormMain.Hide;
-  if Player.Playable and (not Player.Playing) then Player.Resume;
+  Player.SetFocus;
+  if not Player.IsPlay then Player.Resume;
 end;
 
 procedure TFormPlayer.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -68,15 +71,49 @@ end;
 
 procedure TFormPlayer.FormCreate(Sender: TObject);
 begin
-  Player := TLCLVLCPlayer.Create(Self);
+  FPlayRate := 4;
+  Player := TPasLibVlcPlayer.Create(Self);
+  Player.TabStop := False;
+  Player.Parent := Self;
+  Player.BevelOuter := bvNone;
+  Player.Align := alClient;
+  Player.SnapShotFmt:='png';
+  Player.OnKeyPress:=@FormKeyPress;
 end;
 
 procedure TFormPlayer.FormKeyPress(Sender: TObject; var Key: char);
 begin
   case Key of
-    #13 : FormReport.WriteRow(Player.VideoPosition); // in milliseconds
-    #32 : if Player.Playing then Player.Pause else Player.Resume;
+    { backspace }
+    #8  : FormReport.DeleteLastRow;
+
+    { enter }
+    #13 : FormReport.WriteRow(Player.GetVideoPosInMs); // in milliseconds
+
+    { space }
+    #32 : if Player.IsPlay then Player.Pause else Player.Resume;
+
+    '1' : PlayRate(1);
+    '2' : PlayRate(2);
+    '3' : PlayRate(3);
+    '4' : PlayRate(4);
   end;
+end;
+
+procedure TFormPlayer.FormKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  //case Key of
+  //  { arrow left }
+  //  37 : if Player.Seekable and Player.Playing then
+  //         if Player.VideoPosition > 5100 then
+  //           Player.VideoPosition:= Player.VideoPosition-5000;
+  //
+  //  { arrow right }
+  //  39 : if Player.Seekable and Player.Playing  then
+  //         if Player.VideoPosition < Player.VideoLength-5100 then
+  //           Player.VideoPosition:= Player.VideoPosition+5000;
+  //end;
 end;
 
 procedure TFormPlayer.PlayerOpening(Sender: TObject);
@@ -84,43 +121,29 @@ begin
   FirstTick := GetTickCount64;
 end;
 
+procedure TFormPlayer.PlayRate(AValue: integer);
+begin
+  if AValue = FPlayRate then Exit;
+  FPlayRate := AValue;
+  FPlayRate := 100 * AValue;
+  if FPlayRate > 400 then Exit;
+  Player.SetPlayRate(FPlayRate);
+end;
+
 procedure TFormPlayer.Pause;
 begin
-  if Player.Playing then Player.Pause;
+  if Player.IsPlay then Player.Pause;
 end;
 
 procedure TFormPlayer.Play(AVideo: string);
 begin
-  Player.FitWindow := False;
-  Player.ParentWindow := Self;
   Player.UseEvents := True;
   with Player do
     begin
-      //OnBackward:=@LCLVLCPlayerBackward;
-      //OnBuffering:=@LCLVLCPlayerBuffering;
-      //OnEOF:=@PlayerEOF;
-      //OnError:=@LCLVLCPlayerError;
-      //OnForward:=@LCLVLCPlayerForward;
-      //OnLengthChanged:=@LCLVLCPlayerLengthChanged;
-      //OnMediaChanged:=@LCLVLCPlayerMediaChanged;
-      //OnNothingSpecial:=@LCLVLCPlayerNothingSpecial;
-      OnOpening:=@PlayerOpening;
-      //OnPausableChanged:=@LCLVLCPlayerPausableChanged;
-      //OnPause:=@LCLVLCPlayerPause;
-      //OnPlaying:=@LCLVLCPlayerPlaying;
-      //OnPositionChanged:=@LCLVLCPlayerPositionChanged;
-      //OnSeekableChanged:=@LCLVLCPlayerSeekableChanged;
-      //OnSnapshot:=@LCLVLCPlayerSnapshot;
-      //OnStop := @LCLVLCPlayerStop;
-      //OnTimeChanged:=@LCLVLCPlayerTimeChanged;
-      //OnTitleChanged:=@LCLVLCPlayerTitleChanged;
-    end;
-  MediaItem := TVLCMediaItem.Create(nil);
-  MediaItem.Path := AVideo;
-  Player.Play(MediaItem);
+      OnMediaPlayerOpening:=@PlayerOpening;
 
-  //Player.FullScreenMode:=True;
-  //Player.PlayRate(1000);
+    end;
+  Player.Play(WideString(AVideo));
 end;
 
 {$IFDEF LINUX}
@@ -140,7 +163,7 @@ begin
     OriginalBounds := BoundsRect;
 
     BorderStyle := bsNone;
-    BoundsRect := Screen.MonitorFromWindow(Handle).BoundsRect;
+    BoundsRect := Screen.DesktopRect;
   end else begin
     // From full screen
     BorderStyle := bsSizeable;
@@ -154,10 +177,10 @@ end;
 
 procedure TFormPlayer.SetVideoVariables;
 begin
-  if Player.Playing then
+  if Player.IsPlay then
   begin
-    VideoLength := Player.VideoLength;
-    VideoDuration := Player.VideoDuration;
+    VideoLength := Player.GetVideoLenInMs;
+    VideoDuration := TimeStampToDateTime(MSecsToTimeStamp(VideoLength));
   end;
 end;
 
