@@ -11,4 +11,11 @@ object FormPlayer: TFormPlayer
   OnKeyPress = FormKeyPress
   OnKeyUp = FormKeyUp
   LCLVersion = '1.8.4.0'
+  object Timer: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = TimerTimer
+    left = 24
+    top = 16
+  end
 end

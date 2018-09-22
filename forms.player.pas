@@ -17,19 +17,21 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, PasLibVlcPlayerUnit;
+  StdCtrls, ExtCtrls, PasLibVlcPlayerUnit;
 
 type
 
   { TFormPlayer }
 
   TFormPlayer = class(TForm)
+    Timer: TTimer;
     procedure FormActivate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: char);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure PlayerOpening(Sender: TObject);
+    procedure TimerTimer(Sender: TObject);
   private
     FPlayRate : integer;
     Player : TPasLibVlcPlayer;
@@ -51,9 +53,13 @@ var
 
 implementation
 
-uses Forms.Main, Forms.Report, Timestamps;
+uses Forms.Main, Forms.Report, Timestamps, PasLibVlcUnit;
 
 {$R *.lfm}
+
+
+var
+  Line : widestring;
 
 { TFormPlayer }
 
@@ -71,7 +77,8 @@ end;
 
 procedure TFormPlayer.FormCreate(Sender: TObject);
 begin
-  FPlayRate := 4;
+  Line := ExtractFilePath(Application.ExeName)+'line.png';
+  FPlayRate := 1;
   Player := TPasLibVlcPlayer.Create(Self);
   Player.TabStop := False;
   Player.Parent := Self;
@@ -88,7 +95,12 @@ begin
     #8  : FormReport.DeleteLastRow;
 
     { enter }
-    #13 : FormReport.WriteRow(Player.GetVideoPosInMs); // in milliseconds
+    #13 :
+        begin
+          FormReport.WriteRow(Player.GetVideoPosInMs); // in milliseconds
+          Player.LogoSetOpacity(255);
+          Timer.Enabled := True;
+        end;
 
     { space }
     #32 : if Player.IsPlay then Player.Pause else Player.Resume;
@@ -119,6 +131,12 @@ end;
 procedure TFormPlayer.PlayerOpening(Sender: TObject);
 begin
   FirstTick := GetTickCount64;
+end;
+
+procedure TFormPlayer.TimerTimer(Sender: TObject);
+begin
+  Timer.Enabled:=False;
+  Player.LogoSetOpacity(100);
 end;
 
 procedure TFormPlayer.PlayRate(AValue: integer);
@@ -181,6 +199,8 @@ begin
   begin
     VideoLength := Player.GetVideoLenInMs;
     VideoDuration := TimeStampToDateTime(MSecsToTimeStamp(VideoLength));
+    if FileExists(Line) then
+      Player.LogoShowFile(Line, 0,0, 100);
   end;
 end;
 
