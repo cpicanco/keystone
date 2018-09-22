@@ -32,11 +32,13 @@ type
     procedure ButtonSaveClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
+    procedure FormKeyPress(Sender: TObject; var Key: char);
   private
     procedure WriteFooter;
   public
     procedure SetHeader(AHeader : string);
     procedure WriteRow(AVideoTime: Int64);
+    procedure DeleteLastRow;
   end;
 
 var
@@ -56,6 +58,13 @@ var ReportHeader : string;
 procedure TFormReport.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
   CanClose := False;
+end;
+
+procedure TFormReport.FormKeyPress(Sender: TObject; var Key: char);
+begin
+ case Key of
+   #8  : DeleteLastRow;
+ end;
 end;
 
 procedure TFormReport.ButtonSaveClick(Sender: TObject);
@@ -85,6 +94,7 @@ begin
   DecodeTime(VideoDuration, hh, mm, ss, ms);
   with StringGridReport do
   begin
+    RowCount := RowCount+1;
     Cells[0, RowCount-1] :=
     ReportHeader +LineEnding +
     'Duração: ' + Format('%dh%dm%d.%d',[hh,mm,ss,ms])+LineEnding+
@@ -99,12 +109,20 @@ end;
 
 procedure TFormReport.WriteRow(AVideoTime: Int64);
 begin
+
   with StringGridReport do
   begin
+    RowCount := RowCount+1;
     Cells[0, RowCount-1] := Milliseconds;
     Cells[1, RowCount-1] := IntToStr(AVideoTime);
-    RowCount := RowCount+1;
   end;
+end;
+
+procedure TFormReport.DeleteLastRow;
+begin
+  with StringGridReport do
+    if RowCount > 1 then
+      RowCount := RowCount-1;
 end;
 
 end.
