@@ -1,0 +1,137 @@
+object FormMain: TFormMain
+  Left = 452
+  Height = 344
+  Top = 210
+  Width = 301
+  BorderStyle = bsSingle
+  Caption = 'Informações da Observação'
+  ChildSizing.LeftRightSpacing = 20
+  ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+  ChildSizing.Layout = cclLeftToRightThenTopToBottom
+  ChildSizing.ControlsPerLine = 1
+  ClientHeight = 344
+  ClientWidth = 301
+  Constraints.MinHeight = 300
+  Constraints.MinWidth = 300
+  LCLVersion = '1.8.4.0'
+  object LabelPlace: TLabel
+    Left = 20
+    Height = 18
+    Top = 10
+    Width = 261
+    BorderSpacing.Top = 10
+    Caption = 'Lugar'
+    ParentColor = False
+  end
+  object EditPlace: TEdit
+    Left = 20
+    Height = 28
+    Hint = 'Rua onde foi feita a gravação.'
+    Top = 28
+    Width = 261
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 0
+    TextHint = 'Rua onde foi feita a gravação.'
+  end
+  object LabelTurn: TLabel
+    Left = 20
+    Height = 18
+    Top = 66
+    Width = 261
+    BorderSpacing.Top = 10
+    Caption = 'Turno'
+    ParentColor = False
+  end
+  object EditTurn: TEdit
+    Left = 20
+    Height = 28
+    Hint = 'Turno em que foi feita a gravação.'
+    Top = 84
+    Width = 261
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 1
+    TextHint = 'Turno em que foi feita a gravação.'
+  end
+  object LabelDay: TLabel
+    Left = 20
+    Height = 18
+    Top = 122
+    Width = 261
+    BorderSpacing.Top = 10
+    Caption = 'Dia'
+    ParentColor = False
+  end
+  object EditDay: TEdit
+    Left = 20
+    Height = 28
+    Hint = 'Data da coleta'
+    Top = 140
+    Width = 261
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 2
+    TextHint = 'Data da coleta'
+  end
+  object LabelObserver: TLabel
+    Left = 20
+    Height = 18
+    Top = 178
+    Width = 261
+    BorderSpacing.Top = 10
+    Caption = 'Observador'
+    ParentColor = False
+  end
+  object EditObserver: TEdit
+    Left = 20
+    Height = 28
+    Hint = 'Quem está realizando a observação?'
+    Top = 196
+    Width = 261
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 3
+    TextHint = 'Quem está realizando a observação?'
+  end
+  object LabelPhase: TLabel
+    Left = 20
+    Height = 18
+    Top = 234
+    Width = 261
+    BorderSpacing.Top = 10
+    Caption = 'Fase'
+    ParentColor = False
+  end
+  object EditPhase: TEdit
+    Left = 20
+    Height = 28
+    Hint = 'Pré-implantação'
+    Top = 252
+    Width = 261
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 4
+    TextHint = 'Pré-implantação'
+  end
+  object ButtonStart: TButton
+    Left = 20
+    Height = 28
+    Top = 290
+    Width = 261
+    BorderSpacing.Top = 10
+    Caption = 'Começar'
+    OnClick = ButtonStartClick
+    TabOrder = 5
+  end
+  object OpenDialog: TOpenDialog
+    left = 32
+    top = 240
+  end
+  object Timer: TTimer
+    Enabled = False
+    OnTimer = TimerTimer
+    left = 200
+    top = 248
+  end
+end

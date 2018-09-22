@@ -1,0 +1,13 @@
+object FormPlayer: TFormPlayer
+  Left = 638
+  Height = 240
+  Top = 227
+  Width = 320
+  BorderStyle = bsNone
+  Caption = 'Player'
+  OnActivate = FormActivate
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
+  LCLVersion = '1.8.4.0'
+end

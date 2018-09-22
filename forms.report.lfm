@@ -1,0 +1,62 @@
+object FormReport: TFormReport
+  Left = 393
+  Height = 320
+  Top = 215
+  Width = 320
+  HorzScrollBar.Page = 140
+  HorzScrollBar.Range = 140
+  VertScrollBar.Page = 95
+  VertScrollBar.Range = 95
+  Caption = 'FormReport'
+  ClientHeight = 320
+  ClientWidth = 320
+  Constraints.MinHeight = 320
+  Constraints.MinWidth = 320
+  OnActivate = FormActivate
+  OnCloseQuery = FormCloseQuery
+  LCLVersion = '1.8.4.0'
+  object StringGridReport: TStringGrid
+    Left = 0
+    Height = 275
+    Top = 45
+    Width = 320
+    Align = alClient
+    BorderSpacing.Top = 45
+    ColCount = 2
+    Columns = <    
+      item
+        MinSize = 100
+        Title.Caption = 'Tempo da tecla'
+        Width = 150
+      end    
+      item
+        Title.Caption = 'Tempo do vídeo'
+        Width = 150
+      end>
+    FixedCols = 0
+    RowCount = 2
+    TabOrder = 0
+  end
+  object ButtonSave: TButton
+    Left = 8
+    Height = 25
+    Top = 8
+    Width = 140
+    Caption = 'Salvar'
+    OnClick = ButtonSaveClick
+    TabOrder = 1
+  end
+  object ButtonReturn: TButton
+    Left = 160
+    Height = 25
+    Top = 8
+    Width = 140
+    Caption = 'Retornar'
+    OnClick = ButtonReturnClick
+    TabOrder = 2
+  end
+  object SaveDialog: TSaveDialog
+    left = 256
+    top = 6
+  end
+end
