@@ -20,7 +20,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="vlc"/>
+            <OtherUnitFiles Value="dependencies/PasLibVlc/source.vcl;dependencies/PasLibVlc/source"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
