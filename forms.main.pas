@@ -68,6 +68,17 @@ begin
     Exit;
   end;
 
+  OpenDialog.InitialDir := ExtractFilePath(Application.ExeName);
+
+  OpenDialog.Title := 'Escolha o arquivo .png de referência para a observação';
+  OpenDialog.Filter := 'PNG|*.png;*.PNG';
+  if OpenDialog.Execute then
+  begin
+    ReferencePNGFile := OpenDialog.FileName;
+  end;
+
+  OpenDialog.Title := 'Escolha o vídeo para a observação';
+  OpenDialog.Filter := 'Vídeo|*.mp4;*.avi;*.mov;*.mkv';
   if OpenDialog.Execute then
   begin
     ButtonStart.Enabled:=False;

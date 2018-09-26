@@ -50,6 +50,7 @@ type
 
 var
   FormPlayer: TFormPlayer;
+  ReferencePNGFile : string = '';
 
 implementation
 
@@ -57,9 +58,6 @@ uses Forms.Main, Forms.Report, Timestamps, PasLibVlcUnit;
 
 {$R *.lfm}
 
-
-var
-  Line : widestring;
 
 { TFormPlayer }
 
@@ -77,7 +75,6 @@ end;
 
 procedure TFormPlayer.FormCreate(Sender: TObject);
 begin
-  Line := ExtractFilePath(Application.ExeName)+'line.png';
   FPlayRate := 1;
   Player := TPasLibVlcPlayer.Create(Self);
   Player.TabStop := False;
@@ -199,8 +196,8 @@ begin
   begin
     VideoLength := Player.GetVideoLenInMs;
     VideoDuration := TimeStampToDateTime(MSecsToTimeStamp(VideoLength));
-    if FileExists(Line) then
-      Player.LogoShowFile(Line, 0,0, 100);
+    if FileExists(ReferencePNGFile) then
+      Player.LogoShowFile(ReferencePNGFile, 0,0, 100);
   end;
 end;
 

@@ -1,7 +1,7 @@
 object FormMain: TFormMain
-  Left = 452
+  Left = 456
   Height = 344
-  Top = 210
+  Top = 95
   Width = 301
   BorderStyle = bsSingle
   Caption = 'Informações da Observação'
@@ -125,6 +125,7 @@ object FormMain: TFormMain
     TabOrder = 5
   end
   object OpenDialog: TOpenDialog
+    Filter = 'PNG|*.png,*.PNG'
     left = 32
     top = 240
   end
