@@ -203,7 +203,7 @@ end;
 procedure TFormPlayer.PlayerMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-
+  Player.SetFocus;
 end;
 
 procedure TFormPlayer.PlayerOpening(Sender: TObject);
