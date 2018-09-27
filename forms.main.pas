@@ -74,7 +74,7 @@ begin
   OpenDialog.Filter := 'PNG|*.png;*.PNG';
   if OpenDialog.Execute then
   begin
-    ReferencePNGFile := OpenDialog.FileName;
+    ReferencePNGFile := WideString(OpenDialog.FileName);
   end;
 
   OpenDialog.Title := 'Escolha o vídeo para a observação';
