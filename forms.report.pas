@@ -32,7 +32,7 @@ type
     procedure ButtonSaveClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
-    procedure FormKeyPress(Sender: TObject; var Key: char);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     procedure WriteFooter;
   public
@@ -50,7 +50,7 @@ implementation
 
 {$R *.lfm}
 
-uses Forms.Main, Forms.Player, Timestamps;
+uses LCLType, Forms.Main, Forms.Player, Timestamps;
 
 var ReportHeader : string;
 { TFormReport }
@@ -60,11 +60,12 @@ begin
   CanClose := False;
 end;
 
-procedure TFormReport.FormKeyPress(Sender: TObject; var Key: char);
+procedure TFormReport.FormKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
 begin
- case Key of
-   #8  : DeleteLastRow;
- end;
+  case Key of
+    VK_BACK  : DeleteLastRow;
+  end;
 end;
 
 procedure TFormReport.ButtonSaveClick(Sender: TObject);

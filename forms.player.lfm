@@ -5,12 +5,27 @@ object FormPlayer: TFormPlayer
   Width = 320
   BorderStyle = bsNone
   Caption = 'Player'
+  ClientHeight = 240
+  ClientWidth = 320
   OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
-  OnKeyPress = FormKeyPress
-  OnKeyUp = FormKeyUp
   LCLVersion = '1.8.4.0'
+  object Player: TPasLibVlcPlayer
+    Left = 0
+    Top = 0
+    Align = alClient
+    BevelOuter = bvNone
+    ParentColor = False
+    TabOrder = 0
+    UseDockManager = False
+    OnMouseDown = PlayerMouseDown
+    TitleShowTimeOut = 1000
+    VideoOnTop = True
+    UseOverlay = True
+    SnapShotFmt = 'png'
+    OnMediaPlayerOpening = PlayerOpening
+  end
   object Timer: TTimer
     Enabled = False
     Interval = 100

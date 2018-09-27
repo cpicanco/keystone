@@ -24,17 +24,18 @@ type
   { TFormPlayer }
 
   TFormPlayer = class(TForm)
+    Player: TPasLibVlcPlayer;
     Timer: TTimer;
     procedure FormActivate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
-    procedure FormKeyPress(Sender: TObject; var Key: char);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure PlayerMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure PlayerOpening(Sender: TObject);
     procedure TimerTimer(Sender: TObject);
   private
     FPlayRate : integer;
-    Player : TPasLibVlcPlayer;
     procedure PlayRate(AValue : integer);
   public
     {$IFDEF WINDOWS}
@@ -50,14 +51,69 @@ type
 
 var
   FormPlayer: TFormPlayer;
-  ReferencePNGFile : string = '';
+  ReferencePNGFile : widestring = '';
 
 implementation
 
-uses Forms.Main, Forms.Report, Timestamps, PasLibVlcUnit;
+uses LCLType, Forms.Main, Forms.Report, Timestamps, PasLibVlcUnit;
 
 {$R *.lfm}
 
+const
+  MSecsPerMinute = 60000;
+
+var
+  VideoMinutes : integer = 1;
+
+type
+  TCurrentPos = record
+    InMSecs : integer;
+    Minute : integer;
+  end;
+
+function CurrentPos(APlayer : TPasLibVlcPlayer) : TCurrentPos;
+begin
+  Result.Minute := 1;
+  Result.InMSecs := 0;
+  if APlayer.IsPlay then
+  begin
+    Result.InMSecs := APlayer.GetVideoPosInMs;
+    if Result.InMSecs < MSecsPerMinute then Exit;
+    Result.Minute := Result.InMSecs div MSecsPerMinute;
+  end;
+end;
+
+procedure NextMinute(APlayer : TPasLibVlcPlayer);
+var
+  LCurrentPos : TCurrentPos;
+begin
+  if APlayer.IsPlay and (not APlayer.IsProcessingPaintMsg) then
+  begin
+    LCurrentPos := CurrentPos(APlayer);
+    if LCurrentPos.Minute = VideoMinutes then Exit;
+    APlayer.SetVideoPosInMs(((LCurrentPos.InMSecs div MSecsPerMinute)+1)*MSecsPerMinute);
+  end;
+end;
+
+procedure PreviousMinute(APlayer : TPasLibVlcPlayer);
+var
+  LCurrentPos : TCurrentPos;
+begin
+  if APlayer.IsPlay and (not APlayer.IsProcessingPaintMsg) then
+  begin
+    LCurrentPos := CurrentPos(APlayer);
+    if LCurrentPos.Minute = 1 then Exit;
+    APlayer.SetVideoPosInMs(((LCurrentPos.InMSecs div MSecsPerMinute)-1)*MSecsPerMinute);
+  end;
+end;
+
+procedure GoToMinute(APlayer : TPasLibVlcPlayer; AMinute : integer);
+begin
+  if AMinute < 1 then Exit;
+  if AMinute > VideoMinutes then Exit;
+  if APlayer.IsPlay then
+     APlayer.SetVideoPosInMs(AMinute*MSecsPerMinute);
+end;
 
 { TFormPlayer }
 
@@ -76,53 +132,78 @@ end;
 procedure TFormPlayer.FormCreate(Sender: TObject);
 begin
   FPlayRate := 1;
-  Player := TPasLibVlcPlayer.Create(Self);
-  Player.TabStop := False;
-  Player.Parent := Self;
-  Player.BevelOuter := bvNone;
-  Player.Align := alClient;
-  Player.SnapShotFmt:='png';
-  Player.OnKeyPress:=@FormKeyPress;
-end;
-
-procedure TFormPlayer.FormKeyPress(Sender: TObject; var Key: char);
-begin
-  case Key of
-    { backspace }
-    #8  : FormReport.DeleteLastRow;
-
-    { enter }
-    #13 :
-        begin
-          FormReport.WriteRow(Player.GetVideoPosInMs); // in milliseconds
-          Player.LogoSetOpacity(255);
-          Timer.Enabled := True;
-        end;
-
-    { space }
-    #32 : if Player.IsPlay then Player.Pause else Player.Resume;
-
-    '1' : PlayRate(1);
-    '2' : PlayRate(2);
-    '3' : PlayRate(3);
-    '4' : PlayRate(4);
-  end;
+  Player.OnKeyUp := @FormKeyUp;
 end;
 
 procedure TFormPlayer.FormKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
+var
+  VideoPos : integer;
 begin
-  //case Key of
-  //  { arrow left }
-  //  37 : if Player.Seekable and Player.Playing then
-  //         if Player.VideoPosition > 5100 then
-  //           Player.VideoPosition:= Player.VideoPosition-5000;
-  //
-  //  { arrow right }
-  //  39 : if Player.Seekable and Player.Playing  then
-  //         if Player.VideoPosition < Player.VideoLength-5100 then
-  //           Player.VideoPosition:= Player.VideoPosition+5000;
-  //end;
+  case Key of
+    { backspace }
+    VK_BACK  : FormReport.DeleteLastRow;
+
+    { enter }
+    VK_RETURN :
+      begin
+        FormReport.WriteRow(Player.GetVideoPosInMs); // in milliseconds
+        Player.LogoSetOpacity(255);
+        Timer.Enabled := True;
+      end;
+
+    { space }
+    VK_SPACE :
+      if Player.IsPlay then Player.Pause else Player.Resume;
+
+    { 1 }
+    VK_1 : PlayRate(1);
+
+    { 2 }
+    VK_2 : PlayRate(2);
+
+    { 3 }
+    VK_3 : PlayRate(3);
+
+    { 4 }
+    VK_4 : PlayRate(4);
+
+    { arrow left }
+    VK_LEFT :
+      if ssCtrl in Shift then
+      begin
+        if Player.IsPlay and (not Player.IsProcessingPaintMsg) then
+        begin
+          VideoPos := Player.GetVideoPosInMs;
+          if VideoPos > 5100 then
+            Player.SetVideoPosInMs(VideoPos-5000);
+        end;
+      end else PreviousMinute(Player);
+
+    { arrow right }
+    VK_RIGHT :
+      if ssCtrl in Shift then
+      begin
+        if Player.IsPlay and (not Player.IsProcessingPaintMsg) then;
+        begin
+          VideoPos := Player.GetVideoPosInMs;
+          if VideoPos < VideoLength-5100 then
+            Player.SetVideoPosInMs(VideoPos+5000);
+        end;
+      end else NextMinute(Player);
+
+    VK_G :
+      if ssCtrl in Shift then
+        GoToMinute(Player, InputBox(
+          '',
+          'Prompt', VideoMinutes.ToString).ToInteger);
+  end;
+end;
+
+procedure TFormPlayer.PlayerMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+
 end;
 
 procedure TFormPlayer.PlayerOpening(Sender: TObject);
@@ -195,6 +276,7 @@ begin
   if Player.IsPlay then
   begin
     VideoLength := Player.GetVideoLenInMs;
+    VideoMinutes := VideoLength div MSecsPerMinute;
     VideoDuration := TimeStampToDateTime(MSecsToTimeStamp(VideoLength));
     if FileExists(ReferencePNGFile) then
       Player.LogoShowFile(ReferencePNGFile, 0,0, 100);

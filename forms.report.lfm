@@ -14,7 +14,7 @@ object FormReport: TFormReport
   Constraints.MinWidth = 320
   OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
-  OnKeyPress = FormKeyPress
+  OnKeyUp = FormKeyUp
   LCLVersion = '1.8.4.0'
   object StringGridReport: TStringGrid
     Left = 0
@@ -37,7 +37,6 @@ object FormReport: TFormReport
     FixedCols = 0
     RowCount = 1
     TabOrder = 0
-    OnKeyPress = FormKeyPress
   end
   object ButtonSave: TButton
     Left = 8
@@ -46,7 +45,6 @@ object FormReport: TFormReport
     Width = 140
     Caption = 'Salvar'
     OnClick = ButtonSaveClick
-    OnKeyPress = FormKeyPress
     TabOrder = 1
   end
   object ButtonReturn: TButton
@@ -56,7 +54,6 @@ object FormReport: TFormReport
     Width = 140
     Caption = 'Retornar'
     OnClick = ButtonReturnClick
-    OnKeyPress = FormKeyPress
     TabOrder = 2
   end
   object SaveDialog: TSaveDialog
