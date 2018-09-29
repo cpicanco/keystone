@@ -259,7 +259,7 @@ begin
     OriginalBounds := BoundsRect;
 
     BorderStyle := bsNone;
-    BoundsRect := Screen.DesktopRect;
+    BoundsRect := Screen.MonitorFromWindow(Handle).BoundsRect;
   end else begin
     // From full screen
     BorderStyle := bsSizeable;
