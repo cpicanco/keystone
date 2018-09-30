@@ -38,11 +38,6 @@ type
     FPlayRate : integer;
     procedure PlayRate(AValue : integer);
   public
-    {$IFDEF WINDOWS}
-    OriginalBounds: TRect;
-    OriginalWindowState: TWindowState;
-    ScreenBounds: TRect;
-    {$ENDIF}
     procedure Pause;
     procedure Play(AVideo : string);
     procedure SwitchFullScreen;
@@ -250,24 +245,10 @@ end;
 {$ENDIF}
 
 {$IFDEF WINDOWS}
-// http://wiki.freepascal.org/Application_full_screen_mode
 procedure TFormPlayer.SwitchFullScreen;
 begin
-  if BorderStyle <> bsNone then begin
-    // To full screen
-    OriginalWindowState := WindowState;
-    OriginalBounds := BoundsRect;
-
-    BorderStyle := bsNone;
-    BoundsRect := Screen.MonitorFromWindow(Handle).BoundsRect;
-  end else begin
-    // From full screen
-    BorderStyle := bsSizeable;
-    if OriginalWindowState = wsMaximized then
-      WindowState := wsMaximized
-    else
-      BoundsRect := OriginalBounds;
-  end;
+  BorderStyle := bsNone;
+  BoundsRect := Screen.MonitorFromWindow(Handle).BoundsRect;
 end;
 {$ENDIF}
 
