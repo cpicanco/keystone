@@ -38,6 +38,7 @@ type
     OpenDialog: TOpenDialog;
     Timer: TTimer;
     procedure ButtonStartClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure TimerTimer(Sender: TObject);
   private
 
@@ -83,20 +84,24 @@ begin
   begin
     ButtonStart.Enabled:=False;
     FormReport.Show;
-    FormReport.SetHeader(
-      EditPlace.Text+LineEnding+
-      EditTurn.Text+LineEnding+
-      EditDay.Text+LineEnding+
-      EditObserver.Text+LineEnding+
+    FormReport.SetHeader([
+      EditPlace.Text,
+      EditTurn.Text,
+      EditDay.Text,
+      EditObserver.Text,
       EditPhase.Text
-    );
+    ]);
     FormPlayer.Show;
     FormPlayer.SwitchFullScreen;
     FormPlayer.BringToFront;
     FormPlayer.Play(OpenDialog.FileName);
     Timer.Enabled:=True;
   end;
+end;
 
+procedure TFormMain.FormCreate(Sender: TObject);
+begin
+  EditDay.Text := DateTimeToStr(Date);
 end;
 
 procedure TFormMain.TimerTimer(Sender: TObject);
