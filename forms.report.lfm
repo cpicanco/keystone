@@ -1,7 +1,7 @@
 object FormReport: TFormReport
-  Left = 393
+  Left = 610
   Height = 320
-  Top = 215
+  Top = 175
   Width = 320
   HorzScrollBar.Page = 140
   HorzScrollBar.Range = 140
@@ -12,9 +12,11 @@ object FormReport: TFormReport
   ClientWidth = 320
   Constraints.MinHeight = 320
   Constraints.MinWidth = 320
+  DesignTimePPI = 97
   OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
   OnKeyUp = FormKeyUp
+  Position = poMainFormCenter
   LCLVersion = '1.8.4.0'
   object StringGridReport: TStringGrid
     Left = 0
@@ -26,17 +28,36 @@ object FormReport: TFormReport
     ColCount = 2
     Columns = <    
       item
-        MinSize = 100
-        Title.Caption = 'Tempo da tecla'
-        Width = 150
+        MinSize = 200
+        MaxSize = 300
+        ReadOnly = True
+        Title.Caption = 'Tempo da Tecla'
+        Width = 115
       end    
       item
-        Title.Caption = 'Tempo do vídeo'
-        Width = 150
+        MinSize = 200
+        MaxSize = 300
+        ReadOnly = True
+        Title.Caption = 'Tempo do Vídeo'
+        Width = 109
       end>
     FixedCols = 0
+    FixedRows = 0
     RowCount = 1
     TabOrder = 0
+    ColWidths = (
+      115
+      109
+    )
+    Cells = (
+      2
+      0
+      0
+      'Tempo da Tecla'
+      1
+      0
+      'Tempo do Vídeo'
+    )
   end
   object ButtonSave: TButton
     Left = 8
@@ -57,6 +78,11 @@ object FormReport: TFormReport
     TabOrder = 2
   end
   object SaveDialog: TSaveDialog
+    Width = 780
+    Height = 585
+    Title = 'Salvar como CSV'
+    DefaultExt = '.csv'
+    Filter = 'CSV|*.csv'
     left = 256
     top = 6
   end

@@ -34,9 +34,9 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
-    procedure WriteFooter;
+    procedure WriteHeader;
   public
-    procedure SetHeader(AHeader : string);
+    procedure SetHeader(AHeader : array of string);
     procedure WriteRow(AVideoTime: Int64);
     procedure DeleteLastRow;
   end;
@@ -52,7 +52,8 @@ implementation
 
 uses LCLType, Forms.Main, Forms.Player, Timestamps;
 
-var ReportHeader : string;
+var ReportHeader : array of string;
+
 { TFormReport }
 
 procedure TFormReport.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -72,7 +73,7 @@ procedure TFormReport.ButtonSaveClick(Sender: TObject);
 begin
   if SaveDialog.Execute then
   begin
-    WriteFooter;
+    WriteHeader;
     StringGridReport.SaveToCSVFile(SaveDialog.FileName);
   end;
 end;
@@ -89,28 +90,30 @@ begin
   FormMain.Show;
 end;
 
-procedure TFormReport.WriteFooter;
-var hh, mm, ss, ms : word;
+procedure TFormReport.WriteHeader;
+var
+  hh, mm, ss, ms : word;
 begin
   DecodeTime(VideoDuration, hh, mm, ss, ms);
-  with StringGridReport do
-  begin
-    RowCount := RowCount+1;
-    Cells[0, RowCount-1] :=
-    ReportHeader +LineEnding +
-    'Duração: ' + Format('%dh%dm%d.%d',[hh,mm,ss,ms])+LineEnding+
-    'Duração (ms): ' + IntToStr(VideoLength);
-  end;
+
+  StringGridReport.InsertRowWithValues(0, ['Lugar:',      ReportHeader[0]]);
+  StringGridReport.InsertRowWithValues(1, ['Turno:',      ReportHeader[1]]);
+  StringGridReport.InsertRowWithValues(2, ['Dia:',        ReportHeader[2]]);
+  StringGridReport.InsertRowWithValues(3, ['Observador:', ReportHeader[3]]);
+  StringGridReport.InsertRowWithValues(4, ['Fase:',       ReportHeader[4]]);
+  StringGridReport.InsertRowWithValues(5, ['Duração:', Format('%dh%dm%d.%d',[hh,mm,ss,ms])]);
+  StringGridReport.InsertRowWithValues(6, ['Duração (ms):', IntToStr(VideoLength)]);
 end;
 
-procedure TFormReport.SetHeader(AHeader: string);
+procedure TFormReport.SetHeader(AHeader: array of string);
+var i : integer;
 begin
-  ReportHeader := AHeader;
+  SetLength(ReportHeader, Length(AHeader));
+  for i := Low(AHeader) to High(Aheader) do ReportHeader[i] := AHeader[i];
 end;
 
 procedure TFormReport.WriteRow(AVideoTime: Int64);
 begin
-
   with StringGridReport do
   begin
     RowCount := RowCount+1;
