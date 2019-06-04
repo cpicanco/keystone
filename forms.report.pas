@@ -70,7 +70,50 @@ begin
 end;
 
 procedure TFormReport.ButtonSaveClick(Sender: TObject);
+var
+  LFilename : string = '';
+  LSampleDay : string;
+  LPlace : string;
+  LPhase : string;
+  LTurn : string;
+  LObserver : string;
+  function Normalize(S : string) : string;
+  begin
+    Result := S;
+    Result := StringReplace(Result, ' ', '-', [rfReplaceAll, rfIgnoreCase]);
+
+    Result := StringReplace(Result, 'ô', 'o', [rfReplaceAll, rfIgnoreCase]);
+    Result := StringReplace(Result, 'õ', 'o', [rfReplaceAll, rfIgnoreCase]);
+    Result := StringReplace(Result, 'ó', 'o', [rfReplaceAll, rfIgnoreCase]);
+    Result := StringReplace(Result, 'ô', 'o', [rfReplaceAll, rfIgnoreCase]);
+
+    Result := StringReplace(Result, 'â', 'a', [rfReplaceAll, rfIgnoreCase]);
+    Result := StringReplace(Result, 'á', 'a', [rfReplaceAll, rfIgnoreCase]);
+    Result := StringReplace(Result, 'ã', 'a', [rfReplaceAll, rfIgnoreCase]);
+    Result := StringReplace(Result, 'à', 'a', [rfReplaceAll, rfIgnoreCase]);
+
+    Result := StringReplace(Result, 'é', 'e', [rfReplaceAll, rfIgnoreCase]);
+    Result := StringReplace(Result, 'è', 'e', [rfReplaceAll, rfIgnoreCase]);
+    Result := StringReplace(Result, 'ê', 'e', [rfReplaceAll, rfIgnoreCase]);
+
+    Result := StringReplace(Result, 'í', 'i', [rfReplaceAll, rfIgnoreCase]);
+    Result := StringReplace(Result, 'ì', 'i', [rfReplaceAll, rfIgnoreCase]);
+    Result := StringReplace(Result, 'î', 'i', [rfReplaceAll, rfIgnoreCase]);
+
+    Result := StringReplace(Result, 'ú', 'u', [rfReplaceAll, rfIgnoreCase]);
+    Result := StringReplace(Result, 'ù', 'u', [rfReplaceAll, rfIgnoreCase]);
+    Result := StringReplace(Result, 'û', 'u', [rfReplaceAll, rfIgnoreCase]);
+    Result := UpperCase(Result);
+  end;
+
 begin
+  LSampleDay := Normalize(ReportHeader[3]);
+  LPhase := Normalize(ReportHeader[5]);
+  LPlace := Normalize(ReportHeader[0]);
+  LTurn := Normalize(ReportHeader[1]);
+  LObserver := Normalize(ReportHeader[4]);
+  LFilename := LFilename.Join('_', [LSampleDay+'-'+LPhase, LPlace, LTurn, LObserver]);
+  SaveDialog.FileName := LFilename;
   if SaveDialog.Execute then
   begin
     WriteHeader;
@@ -98,11 +141,12 @@ begin
 
   StringGridReport.InsertRowWithValues(0, ['Lugar:',      ReportHeader[0]]);
   StringGridReport.InsertRowWithValues(1, ['Turno:',      ReportHeader[1]]);
-  StringGridReport.InsertRowWithValues(2, ['Dia:',        ReportHeader[2]]);
-  StringGridReport.InsertRowWithValues(3, ['Observador:', ReportHeader[3]]);
-  StringGridReport.InsertRowWithValues(4, ['Fase:',       ReportHeader[4]]);
-  StringGridReport.InsertRowWithValues(5, ['Duração:', Format('%dh%dm%d.%d',[hh,mm,ss,ms])]);
-  StringGridReport.InsertRowWithValues(6, ['Duração (ms):', IntToStr(VideoLength)]);
+  StringGridReport.InsertRowWithValues(2, ['Dia/coleta:', ReportHeader[2]]);
+  StringGridReport.InsertRowWithValues(3, ['Dia/video:',  ReportHeader[3]]);
+  StringGridReport.InsertRowWithValues(4, ['Observador:', ReportHeader[4]]);
+  StringGridReport.InsertRowWithValues(5, ['Fase:',       ReportHeader[5]]);
+  StringGridReport.InsertRowWithValues(6, ['Duração:', Format('%dh%dm%d.%d',[hh,mm,ss,ms])]);
+  StringGridReport.InsertRowWithValues(7, ['Duração (ms):', IntToStr(VideoLength)]);
 end;
 
 procedure TFormReport.SetHeader(AHeader: array of string);

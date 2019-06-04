@@ -1,38 +1,73 @@
 object FormMain: TFormMain
   Left = 610
-  Height = 344
+  Height = 498
   Top = 176
-  Width = 301
+  Width = 298
   BorderStyle = bsSingle
   Caption = 'Informações da Observação'
   ChildSizing.LeftRightSpacing = 20
   ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
   ChildSizing.Layout = cclLeftToRightThenTopToBottom
   ChildSizing.ControlsPerLine = 1
-  ClientHeight = 344
-  ClientWidth = 301
-  Constraints.MinHeight = 300
-  Constraints.MinWidth = 300
-  DesignTimePPI = 97
+  ClientHeight = 498
+  ClientWidth = 298
+  Constraints.MinHeight = 297
+  Constraints.MinWidth = 297
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '1.8.4.0'
+  SessionProperties = 'ComboBoxObserver.ItemIndex;ComboBoxObserver.Items;ComboBoxPhase.ItemIndex;ComboBoxPhase.Items;ComboBoxPlace.ItemIndex;ComboBoxPlace.Items;ComboBoxTurn.ItemIndex;ComboBoxTurn.Items;ComboBoxObserver.Text;ComboBoxPhase.Text;ComboBoxPlace.Text;ComboBoxTurn.Text'
+  LCLVersion = '2.0.0.4'
+  object ButtonExample: TButton
+    Left = 20
+    Height = 25
+    Top = 0
+    Width = 258
+    Caption = 'Preenchimento Padrão'
+    OnClick = ButtonExampleClick
+    TabOrder = 7
+  end
   object LabelDay: TLabel
     Left = 20
-    Height = 18
-    Top = 10
-    Width = 261
+    Height = 15
+    Top = 35
+    Width = 258
     BorderSpacing.Top = 10
-    Caption = 'Dia'
+    Caption = 'Dia da contagem'
     ParentColor = False
+    ParentFont = False
   end
-  object EditDay: TEdit
+  object EditToday: TEdit
     Left = 20
-    Height = 28
-    Hint = 'Data da coleta'
-    Top = 28
-    Width = 261
+    Height = 23
+    Hint = 'Data da contagem'
+    Top = 50
+    Width = 258
     Enabled = False
+    ParentFont = False
+    ParentShowHint = False
+    ReadOnly = True
+    ShowHint = True
+    TabOrder = 0
+    TextHint = 'Data da coleta'
+  end
+  object LabelSampleDay: TLabel
+    Left = 20
+    Height = 15
+    Top = 83
+    Width = 258
+    BorderSpacing.Top = 10
+    Caption = 'Dia da Filmagem'
+    ParentColor = False
+    ParentFont = False
+  end
+  object EditSampleDay: TEdit
+    Left = 20
+    Height = 23
+    Hint = 'Data da coleta'
+    Top = 98
+    Width = 258
+    Enabled = False
+    ParentFont = False
     ParentShowHint = False
     ReadOnly = True
     ShowHint = True
@@ -41,103 +76,117 @@ object FormMain: TFormMain
   end
   object LabelPlace: TLabel
     Left = 20
-    Height = 18
-    Top = 66
-    Width = 261
+    Height = 15
+    Top = 131
+    Width = 258
     BorderSpacing.Top = 10
     Caption = 'Lugar'
     ParentColor = False
+    ParentFont = False
   end
-  object EditPlace: TEdit
+  object ComboBoxPlace: TComboBox
     Left = 20
-    Height = 28
+    Height = 23
     Hint = 'Rua onde foi feita a gravação.'
-    Top = 84
-    Width = 261
+    Top = 146
+    Width = 258
+    ItemHeight = 15
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 0
-    TextHint = 'Rua onde foi feita a gravação.'
+    Style = csDropDownList
+    TabOrder = 6
   end
   object LabelTurn: TLabel
     Left = 20
-    Height = 18
-    Top = 122
-    Width = 261
+    Height = 15
+    Top = 179
+    Width = 258
     BorderSpacing.Top = 10
     Caption = 'Turno'
     ParentColor = False
+    ParentFont = False
   end
-  object EditTurn: TEdit
+  object ComboBoxTurn: TComboBox
     Left = 20
-    Height = 28
-    Hint = 'Turno em que foi feita a gravação.'
-    Top = 140
-    Width = 261
+    Height = 23
+    Hint = 'Turno em que foi feita a observação.'
+    Top = 194
+    Width = 258
+    ItemHeight = 15
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 1
-    TextHint = 'Turno em que foi feita a gravação.'
+    Style = csDropDownList
+    TabOrder = 5
   end
   object LabelObserver: TLabel
     Left = 20
-    Height = 18
-    Top = 178
-    Width = 261
+    Height = 15
+    Top = 227
+    Width = 258
     BorderSpacing.Top = 10
     Caption = 'Observador'
     ParentColor = False
+    ParentFont = False
   end
-  object EditObserver: TEdit
+  object ComboBoxObserver: TComboBox
     Left = 20
-    Height = 28
-    Hint = 'Quem está realizando a observação?'
-    Top = 196
-    Width = 261
+    Height = 23
+    Hint = 'Qual o observador realizando a contagem?'
+    Top = 242
+    Width = 258
+    ItemHeight = 15
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 3
-    TextHint = 'Quem está realizando a observação?'
+    Style = csDropDownList
+    TabOrder = 4
   end
   object LabelPhase: TLabel
     Left = 20
-    Height = 18
-    Top = 234
-    Width = 261
+    Height = 15
+    Top = 275
+    Width = 258
     BorderSpacing.Top = 10
     Caption = 'Fase'
     ParentColor = False
+    ParentFont = False
   end
-  object EditPhase: TEdit
+  object ComboBoxPhase: TComboBox
     Left = 20
-    Height = 28
-    Hint = 'Pré-implantação'
-    Top = 252
-    Width = 261
+    Height = 23
+    Hint = 'Qual a fase experimental?'
+    Top = 290
+    Width = 258
+    ItemHeight = 15
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 4
-    TextHint = 'Pré-implantação'
+    Style = csDropDownList
+    TabOrder = 3
   end
   object ButtonStart: TButton
     Left = 20
-    Height = 28
-    Top = 290
-    Width = 261
+    Height = 25
+    Top = 323
+    Width = 258
     BorderSpacing.Top = 10
     Caption = 'Começar'
     OnClick = ButtonStartClick
-    TabOrder = 5
+    ParentFont = False
+    TabOrder = 1
   end
   object OpenDialog: TOpenDialog
     Filter = 'PNG|*.png,*.PNG'
-    left = 32
-    top = 240
+    left = 168
+    top = 368
   end
   object Timer: TTimer
     Enabled = False
     OnTimer = TimerTimer
-    left = 200
-    top = 248
+    left = 240
+    top = 368
+  end
+  object IniPropStorage1: TIniPropStorage
+    StoredValues = <>
+    left = 64
+    top = 368
   end
 end

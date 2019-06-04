@@ -1,53 +1,53 @@
 object FormReport: TFormReport
   Left = 610
-  Height = 320
+  Height = 317
   Top = 175
-  Width = 320
+  Width = 317
   HorzScrollBar.Page = 140
   HorzScrollBar.Range = 140
   VertScrollBar.Page = 95
   VertScrollBar.Range = 95
   Caption = 'FormReport'
-  ClientHeight = 320
-  ClientWidth = 320
-  Constraints.MinHeight = 320
-  Constraints.MinWidth = 320
-  DesignTimePPI = 97
+  ClientHeight = 317
+  ClientWidth = 317
+  Constraints.MinHeight = 317
+  Constraints.MinWidth = 317
   OnActivate = FormActivate
   OnCloseQuery = FormCloseQuery
   OnKeyUp = FormKeyUp
   Position = poMainFormCenter
-  LCLVersion = '1.8.4.0'
+  LCLVersion = '2.0.0.4'
   object StringGridReport: TStringGrid
     Left = 0
-    Height = 275
+    Height = 272
     Top = 45
-    Width = 320
+    Width = 317
     Align = alClient
     BorderSpacing.Top = 45
     ColCount = 2
     Columns = <    
       item
-        MinSize = 200
-        MaxSize = 300
+        MinSize = 198
+        MaxSize = 297
         ReadOnly = True
         Title.Caption = 'Tempo da Tecla'
-        Width = 115
+        Width = 114
       end    
       item
-        MinSize = 200
-        MaxSize = 300
+        MinSize = 198
+        MaxSize = 297
         ReadOnly = True
         Title.Caption = 'Tempo do Vídeo'
-        Width = 109
+        Width = 108
       end>
     FixedCols = 0
     FixedRows = 0
+    ParentFont = False
     RowCount = 1
     TabOrder = 0
     ColWidths = (
-      115
-      109
+      114
+      108
     )
     Cells = (
       2
@@ -63,27 +63,27 @@ object FormReport: TFormReport
     Left = 8
     Height = 25
     Top = 8
-    Width = 140
+    Width = 139
     Caption = 'Salvar'
     OnClick = ButtonSaveClick
+    ParentFont = False
     TabOrder = 1
   end
   object ButtonReturn: TButton
-    Left = 160
+    Left = 158
     Height = 25
     Top = 8
-    Width = 140
+    Width = 139
     Caption = 'Retornar'
     OnClick = ButtonReturnClick
+    ParentFont = False
     TabOrder = 2
   end
   object SaveDialog: TSaveDialog
-    Width = 780
-    Height = 585
     Title = 'Salvar como CSV'
     DefaultExt = '.csv'
     Filter = 'CSV|*.csv'
-    left = 256
+    left = 253
     top = 6
   end
 end

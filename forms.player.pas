@@ -172,19 +172,19 @@ begin
           VideoPos := Player.GetVideoPosInMs;
           if VideoPos > 5100 then
             Player.SetVideoPosInMs(VideoPos-5000);
-        end;
+        end
       end else PreviousMinute(Player);
 
     { arrow right }
     VK_RIGHT :
       if ssCtrl in Shift then
       begin
-        if Player.IsPlay and (not Player.IsProcessingPaintMsg) then;
+        if Player.IsPlay and (not Player.IsProcessingPaintMsg) then
         begin
           VideoPos := Player.GetVideoPosInMs;
           if VideoPos < VideoLength-5100 then
             Player.SetVideoPosInMs(VideoPos+5000);
-        end;
+        end
       end else NextMinute(Player);
 
     VK_G :
