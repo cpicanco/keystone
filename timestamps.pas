@@ -1,6 +1,6 @@
 {
   Keystone
-  Copyright (C) 2018 Imagine - Tecnologia Comportamental.
+  Copyright (C) 2019 Imagine - Tecnologia Comportamental.
 
   Written by cpicanco@imaginetc.com.br
 

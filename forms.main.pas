@@ -1,6 +1,6 @@
 {
   Keystone
-  Copyright (C) 2018 Imagine - Tecnologia Comportamental.
+  Copyright (C) 2019 Imagine - Tecnologia Comportamental.
 
   Written by cpicanco@imaginetc.com.br
 
@@ -102,7 +102,13 @@ begin
           '31 (2019-01-22 06''00''00 - 2019-01-22 08''00''00).avi');
         Exit;
       end;
+    ButtonExample.Enabled:=False;
     ButtonStart.Enabled:=False;
+    ComboBoxObserver.Enabled:=False;
+    ComboBoxPhase.Enabled:=False;
+    ComboBoxPlace.Enabled:=False;
+    ComboBoxTurn.Enabled:=False;
+
     FormReport.Show;
     FormReport.SetHeader([
       ComboBoxPlace.Text,

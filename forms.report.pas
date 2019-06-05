@@ -1,6 +1,6 @@
 {
   Keystone
-  Copyright (C) 2018 Imagine - Tecnologia Comportamental.
+  Copyright (C) 2019 Imagine - Tecnologia Comportamental.
 
   Written by cpicanco@imaginetc.com.br
 
@@ -103,6 +103,9 @@ var
     Result := StringReplace(Result, 'ú', 'u', [rfReplaceAll, rfIgnoreCase]);
     Result := StringReplace(Result, 'ù', 'u', [rfReplaceAll, rfIgnoreCase]);
     Result := StringReplace(Result, 'û', 'u', [rfReplaceAll, rfIgnoreCase]);
+
+    Result := StringReplace(Result, 'ç', 'c', [rfReplaceAll, rfIgnoreCase]);
+
     Result := UpperCase(Result);
   end;
 
