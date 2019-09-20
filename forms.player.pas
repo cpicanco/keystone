@@ -192,6 +192,9 @@ begin
         GoToMinute(Player, InputBox(
           '',
           'Prompt', VideoMinutes.ToString).ToInteger);
+    VK_P :
+      if ssCtrl in Shift then
+         SetVideoVariables;
   end;
 end;
 
