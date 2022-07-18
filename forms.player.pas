@@ -140,9 +140,9 @@ begin
     VK_BACK  : FormReport.DeleteLastRow;
 
     { enter }
-    VK_RETURN :
+    VK_A, VK_S, VK_D, VK_F, VK_G:
       begin
-        FormReport.WriteRow(Player.GetVideoPosInMs); // in milliseconds
+        FormReport.WriteRow(Player.GetVideoPosInMs, Key); // in milliseconds
         Player.LogoSetOpacity(255);
         Timer.Enabled := True;
       end;
@@ -187,7 +187,7 @@ begin
         end
       end else NextMinute(Player);
 
-    VK_G :
+    VK_L :
       if ssCtrl in Shift then
         GoToMinute(Player, InputBox(
           '',

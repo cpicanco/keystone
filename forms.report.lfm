@@ -16,7 +16,7 @@ object FormReport: TFormReport
   OnCloseQuery = FormCloseQuery
   OnKeyUp = FormKeyUp
   Position = poMainFormCenter
-  LCLVersion = '2.0.0.4'
+  LCLVersion = '2.2.2.0'
   object StringGridReport: TStringGrid
     Left = 0
     Height = 272
@@ -24,7 +24,7 @@ object FormReport: TFormReport
     Width = 317
     Align = alClient
     BorderSpacing.Top = 45
-    ColCount = 2
+    ColCount = 3
     Columns = <    
       item
         MinSize = 198
@@ -39,6 +39,10 @@ object FormReport: TFormReport
         ReadOnly = True
         Title.Caption = 'Tempo do Vídeo'
         Width = 108
+      end    
+      item
+        Title.Caption = 'Categoria'
+        Width = 64
       end>
     FixedCols = 0
     FixedRows = 0
@@ -48,15 +52,19 @@ object FormReport: TFormReport
     ColWidths = (
       114
       108
+      64
     )
     Cells = (
-      2
+      3
       0
       0
       'Tempo da Tecla'
       1
       0
       'Tempo do Vídeo'
+      2
+      0
+      'Categoria'
     )
   end
   object ButtonSave: TButton
@@ -83,7 +91,6 @@ object FormReport: TFormReport
     Title = 'Salvar como CSV'
     DefaultExt = '.csv'
     Filter = 'CSV|*.csv'
-    left = 253
-    top = 6
+    Left = 200
   end
 end

@@ -37,7 +37,7 @@ type
     procedure WriteHeader;
   public
     procedure SetHeader(AHeader : array of string);
-    procedure WriteRow(AVideoTime: Int64);
+    procedure WriteRow(AVideoTime: Int64; Key: Word);
     procedure DeleteLastRow;
   end;
 
@@ -159,13 +159,14 @@ begin
   for i := Low(AHeader) to High(Aheader) do ReportHeader[i] := AHeader[i];
 end;
 
-procedure TFormReport.WriteRow(AVideoTime: Int64);
+procedure TFormReport.WriteRow(AVideoTime: Int64; Key: Word);
 begin
   with StringGridReport do
   begin
-    RowCount := RowCount+1;
+    RowCount := RowCount+1; // criar uma nova linha na tabela (StringGridReport)
     Cells[0, RowCount-1] := Milliseconds;
     Cells[1, RowCount-1] := IntToStr(AVideoTime);
+    Cells[2, RowCount-1] := Char(Key);
   end;
 end;
 
